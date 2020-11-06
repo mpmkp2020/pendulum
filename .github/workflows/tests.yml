@@ -152,3 +152,4 @@ jobs:
       run: |
         $env:Path += ";$env:Userprofile\.poetry\bin"
         poetry run pytest -q tests
+        
