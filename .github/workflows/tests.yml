@@ -61,6 +61,37 @@ jobs:
         source $HOME/.poetry/env
         poetry run pytest -q tests
         poetry install
+  aarch64_linux:
+    strategy:
+      matrix:
+        pyver: [cp36-cp36, cp37-cp37m, cp38-cp38]
+        arch: [aarch64]
+      fail-fast: false
+    runs-on: ubuntu-latest
+    env:
+      py: /opt/python/${{ matrix.pyver }}/bin/python
+      img: quay.io/pypa/manylinux2014_${{ matrix.arch }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set up QEMU
+      id: qemu
+      uses: docker/setup-qemu-action@v1
+    - name: Available platforms
+      run: echo ${{ steps.qemu.outputs.platforms }}
+    - name: Install tools
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+          ${{ env.img }} ${{ env.py }} -m pip install -U setuptools wheel
+    - name: Make wheel
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+          ${{ env.img }} ${{ env.py }} setup.py bdist_wheel
+    - name: Upgrade pip      
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+          ${{ env.img }} ${{ env.py }} poetry run python -m pip install pip -U   
+  
 
   MacOS:
     #needs: Linting
