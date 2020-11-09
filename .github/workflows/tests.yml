@@ -83,10 +83,11 @@ jobs:
       run: |
         docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
           ${{ env.img }} ${{ env.py }} -m pip install -U setuptools wheel
-    - name: Make wheel
+    - name: Auditwheel
       run: |
         docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }} ${{ env.py }} setup.py bdist_wheel
+        #${{ env.img }} ls
+        ${{ env.img }} auditwheel repair /dist/*.whl
     - name: Upgrade pip      
       run: |
         docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
