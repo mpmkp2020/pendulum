@@ -61,37 +61,14 @@ jobs:
         source $HOME/.poetry/env
         poetry run pytest -q tests
         poetry install
-  aarch64_manylinux:
-    strategy:
-      matrix:
-        pyver: [cp36-cp36m, cp37-cp37m, cp38-cp38]
-        arch: [aarch64]
-      fail-fast: false
-    runs-on: ubuntu-latest
-    env:
-      py: /opt/python/${{ matrix.pyver }}/bin/python
-      img: quay.io/pypa/manylinux2014_${{ matrix.arch }}
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Set up QEMU
-      id: qemu
-      uses: docker/setup-qemu-action@v1
-    - name: Available platforms
-      run: echo ${{ steps.qemu.outputs.platforms }}
-    - name: Install tools
+    - name: Building release
       run: |
-        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }} ${{ env.py }} -m pip install -U setuptools wheel
-    - name: Auditwheel
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-        #${{ env.img }} ls
-        ${{ env.img }} auditwheel repair /dist/*.whl
-    - name: Upgrade pip      
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }} ${{ env.py }} poetry run python -m pip install pip -U   
+        make linux_release
+    - name: Upload distributions artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: pendulum-dist
+        path: dist/wheelhouse   
   MacOS:
     #needs: Linting
     runs-on: macos-latest
