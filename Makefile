@@ -27,6 +27,8 @@ linux_release: wheels_x64 wheels_i686
 
 release: wheels_x64 wheels_i686 wheel
 
+release: wheels_aarch64 wheels_i686 wheel
+
 publish:
 	@poetry publish --no-build
 
