@@ -16,6 +16,7 @@ jobs:
     - name: Building release
       run: |
         make linux_release
+        make release
     - name: Upload distributions artifacts
       uses: actions/upload-artifact@v1
       with:
