@@ -47,6 +47,7 @@ build_wheels_x64:
 	docker run --rm -v `pwd`:/io quay.io/pypa/manylinux1_x86_64 /io/build-wheels.sh
 	
 build_wheels_aarch64:
+        docker run --rm --privileged hypriot/qemu-register
 	docker pull quay.io/pypa/manylinux2014_aarch64
 	docker run --rm -v `pwd`:/io quay.io/pypa/manylinux2014_aarch64 /io/build-wheels.sh	
 
