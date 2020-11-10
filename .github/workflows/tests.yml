@@ -83,4 +83,18 @@ jobs:
       run: |
         docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
           ${{ env.img }} ${{ env.py }} -m pip install -U setuptools wheel  
+    - name: Install dependencies
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+          ${{ env.img }} ${{ env.py }} poetry install -vvv   
+    - name: Test Pure Python 
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+          ${{ env.img }} ${{ env.py }} poetry run pytest -q tests 
+    - name: Test 
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+          ${{ env.img }} ${{ env.py }} poetry run pytest -q tests
+      
+            
   
