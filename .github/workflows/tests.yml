@@ -106,12 +106,12 @@ jobs:
           #source $HOME/.poetry/env
           #poetry install -vvv
           
-    - name: test pure python
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }}
-          source $HOME/.poetry/env
-          PENDULUM_EXTENSIONS=0 poetry run pytest -q tests
+    #- name: test pure python
+      #run: |
+        #docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+          #${{ env.img }}
+          #source $HOME/.poetry/env
+          #PENDULUM_EXTENSIONS=0 poetry run pytest -q tests
           
     - name: test 
       run: |
