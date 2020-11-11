@@ -99,12 +99,12 @@ jobs:
           source $HOME/.poetry/env
           poetry run python -m pip install pip -U   
           
-    - name: Install dependencies
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }}
-          source $HOME/.poetry/env
-          poetry install -vvv
+    #- name: Install dependencies
+      #run: |
+        #docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+          #${{ env.img }}
+          #source $HOME/.poetry/env
+          #poetry install -vvv
           
     - name: test pure python
       run: |
