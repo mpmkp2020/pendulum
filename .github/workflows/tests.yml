@@ -113,7 +113,7 @@ jobs:
           source $HOME/.poetry/env
           PENDULUM_EXTENSIONS=0 poetry run pytest -q tests
           
-    - name: test pure python
+    - name: test 
       run: |
         docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
           ${{ env.img }}
@@ -121,6 +121,3 @@ jobs:
           poetry run pytest -q tests
           poetry install
                
-  
-  
-  
