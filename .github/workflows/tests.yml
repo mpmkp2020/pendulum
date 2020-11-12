@@ -105,6 +105,7 @@ jobs:
           ${{ env.img }} ${{ env.py }} 
           source $HOME/.poetry/env
           poetry install -vvv
+          python --version
           
   
           
