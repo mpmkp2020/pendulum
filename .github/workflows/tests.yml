@@ -69,7 +69,7 @@ jobs:
       fail-fast: false
     runs-on: ubuntu-latest
     env:
-      py: /opt/python/cp36-cp36m/bin/python 
+      py: /opt/python/${{ matrix.pyver }}/bin/python 
       img: quay.io/pypa/manylinux2014_${{ matrix.arch }}
     steps:
     - name: Checkout
@@ -97,15 +97,18 @@ jobs:
         docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
           ${{ env.img }}
           source $HOME/.poetry/env
-          poetry run python -m pip install pip -U   
+          poetry run python -m pip install pip -U 
+          python --version  
           
     - name: Install dependencies
       run: |
         docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
           ${{ env.img }} ${{ env.py }} 
+          echo "anything0"
           source $HOME/.poetry/env
+          echo "anything1"
           poetry install -vvv
-          python --version
+          echo "anything2"
           
   
           
