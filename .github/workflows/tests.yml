@@ -102,7 +102,7 @@ jobs:
     - name: Install dependencies
       run: |
         docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }} ${{ env.py }} source $HOME/.poetry/env
+          ${{ env.img }} ${{ env.py }} 
           poetry install -vvv
           
   
