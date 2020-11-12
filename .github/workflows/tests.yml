@@ -84,7 +84,7 @@ jobs:
     - run: |
           docker run --rm --privileged hypriot/qemu-register
     - name: install dependencies      
-    - uses: docker://quay.io/pypa/manylinux2014_aarch64  
+      uses: docker://quay.io/pypa/manylinux2014_aarch64  
       with:
           args: |
               bash -c "curl -fsS -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py;
