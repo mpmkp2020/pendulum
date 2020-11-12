@@ -87,18 +87,14 @@ jobs:
               poetry install -vvv;
               PENDULUM_EXTENSIONS=0 poetry run pytest -q tests;
               poetry run pytest -q tests;
-              poetry install;"
+              poetry install;
+              python --version;
+              python3 --version;
+              uname -m;"
       - name: Set up cache
         uses: actions/cache@v1
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }} 
       
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Get full python version
-        id: full-python-version
-        run: |
-         echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+     
