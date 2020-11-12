@@ -87,10 +87,15 @@ jobs:
       run: |
         docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
           ${{ env.img }} \
-          bash -C "curl -fsS -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py ;
+          echo "annu0"
+          bash -C "curl -fsS -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py;
+          echo "annu_1";
           python get-poetry.py --preview -y;
+          echo "annu2";
           source $HOME/.poetry/env;
+          echo "annu3";
           poetry config virtualenvs.in-project true;
+          echo "annu4";
           pip install scipy"
           
     - name: upgrade pip
