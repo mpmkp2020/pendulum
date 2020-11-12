@@ -63,29 +63,19 @@ jobs:
         poetry install
         
   manylinux-arm64:
+    name: "${{ matrix.PYTHON.ABI_VERSION }} manylinux2014-aarch64"
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        pyver: [cp36-cp36m, cp37-cp37m, cp38-cp38]
-        arch: [aarch64]
-      fail-fast: false
-    runs-on: ubuntu-latest
-    
+        PYTHON:
+          - {VERSION: "cp36-cp36m", ABI_VERSION: 'cp36'}
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.pyver }}
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.pyver }}
-    - name: Get full python version
-      id: full-python-version
-      run: |
-        echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
-    - uses: actions/checkout@v2
-    - run: |
+      - uses: actions/checkout@v2
+      - run: |
           docker run --rm --privileged hypriot/qemu-register
-    - name: install dependencies      
-      uses: docker://quay.io/pypa/manylinux2014_aarch64  
-      with:
+      - name: install dependencies      
+        uses: docker://quay.io/pypa/manylinux2014_aarch64  
+        with:
           args: |
               bash -c "curl -fsS -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py;
               python --version; python3 --version; uname -m; which python;
@@ -100,9 +90,9 @@ jobs:
               
               
              
-    - name: Set up cache
-      uses: actions/cache@v1
-      with:
+      - name: Set up cache
+        uses: actions/cache@v1
+        with:
           path: .venv
           key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }} 
       
