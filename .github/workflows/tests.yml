@@ -63,19 +63,19 @@ jobs:
         poetry install
         
   manylinux-arm64:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         pyver: [cp36-cp36m, cp37-cp37m, cp38-cp38]
         arch: [aarch64]
       fail-fast: false
+    runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python ${{ matrix.pyver }}
       uses: actions/setup-python@v1
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: ${{ matrix.pyver }}
     - name: Get full python version
       id: full-python-version
       run: |
@@ -88,6 +88,7 @@ jobs:
       with:
           args: |
               bash -c "curl -fsS -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py;
+              python --version; python3 --version; uname -m; which python;
               python get-poetry.py --preview -y;
               source $HOME/.poetry/env;
               poetry config virtualenvs.in-project true;
@@ -95,10 +96,10 @@ jobs:
               poetry install -vvv;
               PENDULUM_EXTENSIONS=0 poetry run pytest -q tests;
               poetry run pytest -q tests;
-              poetry install;
-              python --version;
-              python3 --version;
-              uname -m;"
+              poetry install;"
+              
+              
+             
     - name: Set up cache
       uses: actions/cache@v1
       with:
