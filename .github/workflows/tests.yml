@@ -83,13 +83,7 @@ jobs:
       run: |
         docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
           ${{ env.img }} ${{ env.py }} -m pip install -U setuptools wheel  
-    - name: upgrade pip
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }} \
-          source $HOME/.poetry/env
-          poetry run python -m pip install pip -U 
-          python --version        
+    
     - name: Install and set up Poetry
       run: |
         docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
@@ -105,7 +99,13 @@ jobs:
           echo "annu4";
           pip install scipy"
           
-    
+    - name: upgrade pip
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+          ${{ env.img }} \
+          source $HOME/.poetry/env
+          poetry run python -m pip install pip -U 
+          python --version        
           
     - name: Install dependencies
       run: |
