@@ -77,6 +77,7 @@ jobs:
         uses: docker://quay.io/pypa/manylinux2014_aarch64  
         with:
           args: |
+              apt install python 3.8;
               bash -c "curl -fsS -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py;
               python --version; python3 --version; uname -m; which python;
               python get-poetry.py --preview -y;
