@@ -95,9 +95,8 @@ jobs:
           echo "annu3";
           poetry config virtualenvs.in-project true;
           echo "annu4";
-          pip install scipy;
-          echo "annu5";
-          python --version"
+          pip install scipy"
+        
           
     - name: upgrade pip
       run: |
