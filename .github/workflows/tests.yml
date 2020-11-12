@@ -69,7 +69,7 @@ jobs:
       fail-fast: false
     runs-on: ubuntu-latest
     env:
-      pythonLocation: /opt/hostedtoolcache/Python/3.6.12/aarch64
+      py: /opt/python/cp36-cp36m/bin/python 
       img: quay.io/pypa/manylinux2014_${{ matrix.arch }}
     steps:
     - name: Checkout
