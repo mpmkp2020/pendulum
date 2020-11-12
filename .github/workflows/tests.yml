@@ -91,6 +91,7 @@ jobs:
           python get-poetry.py --preview -y
           source $HOME/.poetry/env
           poetry config virtualenvs.in-project true
+          pip install scipy
           
     - name: upgrade pip
       run: |
