@@ -61,75 +61,45 @@ jobs:
         source $HOME/.poetry/env
         poetry run pytest -q tests
         poetry install
-  aarch64_linux:
+        
+  manylinux-arm64:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
+        matrix:
         pyver: [cp36-cp36m, cp37-cp37m, cp38-cp38]
         arch: [aarch64]
       fail-fast: false
-    runs-on: ubuntu-latest
-    env:
-      py: /opt/python/${{ matrix.pyver }}/bin/python 
-      img: quay.io/pypa/manylinux2014_${{ matrix.arch }}
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Set up QEMU
-      id: qemu
-      uses: docker/setup-qemu-action@v1
-    - name: Available platforms
-      run: echo ${{ steps.qemu.outputs.platforms }}
-    - name: Install tools
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }} ${{ env.py }} -m pip install -U setuptools wheel  
     
-    - name: Install and set up Poetry
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }} \
-          bash -c "curl -fsS -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py;
-          python get-poetry.py --preview -y;
-          echo "annu2";
-          source $HOME/.poetry/env;
-          echo "annu3";
-          poetry config virtualenvs.in-project true;
-          echo "annu4";
-          pip install scipy"
-        
-          
-    - name: upgrade pip
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }} \
-          source $HOME/.poetry/env
-          poetry run python -m pip install pip -U 
-                  
-          
-    - name: Install dependencies
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }} ${{ env.py }} 
-          echo "anything0"
-          source $HOME/.poetry/env
-          echo "anything1"
-          poetry install -vvv
-          echo "anything2"
-          
-  
-          
-    #- name: test pure python
-      #run: |
-        #docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          #${{ env.img }}
-          #source $HOME/.poetry/env
-          #PENDULUM_EXTENSIONS=0 poetry run pytest -q tests
-          
-    - name: test 
-      run: |
-        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
-          ${{ env.img }}
-          source $HOME/.poetry/env
-          poetry run pytest -q tests
-          poetry install
-               
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          docker run --rm --privileged hypriot/qemu-register
+      - uses: docker://quay.io/pypa/manylinux2014_aarch64
+        # The weird pip cache nonsense below is due to docker ownership issues. We want
+        # a cache because otherwise we end up building cffi twice.
+        with:
+          args: |
+              bash -c "curl -fsS -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py;
+              python get-poetry.py --preview -y;
+              source $HOME/.poetry/env;
+              poetry config virtualenvs.in-project true;
+              poetry run python -m pip install pip -U;
+              poetry install -vvv;
+              PENDULUM_EXTENSIONS=0 poetry run pytest -q tests;
+              poetry run pytest -q tests;
+              poetry install;
+      - name: Set up cache
+        uses: actions/cache@v1
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }} 
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Get full python version
+        id: full-python-version
+        run: |
+         echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
