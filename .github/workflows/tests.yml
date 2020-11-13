@@ -83,7 +83,6 @@ jobs:
               python3 --version; uname -m; which python;
               echo "annu2";
               python3 get-poetry.py --preview -y;
-              echo "poetry env";
               echo "annu3";
               source $HOME/.poetry/env;
               poetry env use python3;
