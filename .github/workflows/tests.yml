@@ -80,6 +80,7 @@ jobs:
               bash -c "curl -fsS -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py;
               echo "annu0";
               yum install -y python3;
+              echo "annu-anything0";
               yum install -y sudo;
               echo "annu-anything";
               sudo rm -f /usr/bin/python;
@@ -89,8 +90,9 @@ jobs:
               python --version; uname -m; which python;
               echo "annu2";
               python get-poetry.py --preview -y;
-              echo "annu21"
+              echo "install pip";
               sudo yum install -y python3-pip;
+              echo "install pytzdata";
               pip install pytzdata;
               echo "annu3";
               source $HOME/.poetry/env;
