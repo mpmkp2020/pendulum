@@ -90,7 +90,7 @@ jobs:
               echo "annu2";
               python get-poetry.py --preview -y;
               echo "annu21"
-              yum install -y python3-pip;
+              sudo yum install -y python3-pip;
               pip install pytzdata;
               echo "annu3";
               source $HOME/.poetry/env;
