@@ -79,16 +79,26 @@ jobs:
           args: |
               bash -c "curl -fsS -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py;
               yum install -y python3;
+              echo "annu1";
               python --version; python3 --version; uname -m; which python;
+              echo "annu2";
               python get-poetry.py --preview -y;
+              echo "annu3";
               source $HOME/.poetry/env;
+              echo "annu4";
               poetry env use `which python3`;
+              echo "annu5";
               poetry config virtualenvs.in-project true;
+              echo "annu6";
               python --version;
               poetry run python -m pip install pip -U;
+              echo "annu7";
               poetry install -vvv;
+              echo "annu8";
               PENDULUM_EXTENSIONS=0 poetry run pytest -q tests;
+              echo "annu9";
               poetry run pytest -q tests;
+              echo "annu10";
               poetry install;"
               
               
