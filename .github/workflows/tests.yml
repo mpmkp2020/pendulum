@@ -80,14 +80,16 @@ jobs:
               bash -c "curl -fsS -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py;
               echo "annu0";
               yum install -y python3;
+              sudo rm -f /usr/bin/python;
+              sudo ln -s `which python3` /usr/bin/python;
+              which python3;
               echo "annu1";
               python --version; uname -m; which python;
               echo "annu2";
               python get-poetry.py --preview -y;
               echo "annu3";
               source $HOME/.poetry/env;
-              poetry env `which python3`;
-              python3 --version;
+              python --version;
               echo "annu4";
               poetry config virtualenvs.in-project true;
               echo "annu5";
