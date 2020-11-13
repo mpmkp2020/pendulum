@@ -86,7 +86,7 @@ jobs:
               echo "poetry env";
               echo "annu3";
               source $HOME/.poetry/env;
-              poetry env use `which python3`;
+              poetry env use python3;
               python3 --version;
               echo "annu5";
               poetry config virtualenvs.in-project true;
