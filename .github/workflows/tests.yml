@@ -82,7 +82,7 @@ jobs:
               python --version; python3 --version; uname -m; which python;
               python get-poetry.py --preview -y;
               source $HOME/.poetry/env;
-              poetry env use `which python3`
+              poetry env use `which python3`;
               poetry config virtualenvs.in-project true;
               python --version;
               poetry run python -m pip install pip -U;
