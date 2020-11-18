@@ -77,41 +77,28 @@ jobs:
         uses: docker://quay.io/pypa/manylinux2014_aarch64  
         with:
           args: |
+              uname -m; 
               bash -c "curl -fsS -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py;
-              echo "annu0";
               yum install -y python3;
-              echo "annu-anything0";
               yum install -y sudo;
-              echo "annu-anything";
-              sudo rm -f /usr/bin/python;
-              sudo ln -s `which python3` /usr/bin/python;
+              #sudo rm -f /usr/bin/python;
+              #sudo ln -s `which python3` /usr/bin/python;
               which python3;
-              echo "annu1";
-              python --version; uname -m; which python;
-              echo "annu2";
+              which python;
+              python --version; 
               python get-poetry.py --preview -y;
-              echo "install pip";
-              sudo yum install -y python3-pip;
-              echo "install pytzdata";
+              #sudo yum install -y python3-pip;
               pip install pytzdata;
-              echo "annu3";
               source $HOME/.poetry/env;
-              python --version;
-              echo "annu4";
+              which python3;
+              which python;
+              python --version; 
               poetry config virtualenvs.in-project true;
-              echo "annu5";
               poetry run python -m pip install pip -U;
-              echo "annu6";
               poetry install -vvv;
-              echo "annu7";
               PENDULUM_EXTENSIONS=0 poetry run pytest -q tests;
-              echo "annu8";
               poetry run pytest -q tests;
-              echo "annu9";
-              poetry install;"
-              
-              
-             
+
       - name: Set up cache
         uses: actions/cache@v1
         with:
