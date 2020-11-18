@@ -78,26 +78,20 @@ jobs:
         with:
           args: |
               bash -c "curl -fsS -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py;
-              uname -m;
-              yum install -y python3 python3-devel;
-              yum install -y sudo;
-              #sudo rm -f /usr/bin/python;
-              #sudo ln -s `which python3` /usr/bin/python;
-              which python3;
-              which python;
-              python3 --version; 
+              yum install -y python3 python3-pip python3-devel;
               python3 get-poetry.py --preview -y;
-              #sudo yum install -y python3-pip;
-              pip install pytzdata;
               source $HOME/.poetry/env;
+              poetry env use python3
+              #pip3 install pytzdata;
               which python3;
               which python;
+              python3 --version
               python --version; 
               poetry config virtualenvs.in-project true;
               poetry run python -m pip install pip -U;
               poetry install -vvv;
               PENDULUM_EXTENSIONS=0 poetry run pytest -q tests;
-              poetry run pytest -q tests;
+              #poetry run pytest -q tests;
 
       - name: Set up cache
         uses: actions/cache@v1
