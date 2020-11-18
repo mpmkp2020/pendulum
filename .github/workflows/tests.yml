@@ -78,7 +78,7 @@ jobs:
         with:
           args: |
               bash -c "curl -fsS -o get-poetry.py https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py;
-              yum install -y python3 python3-pip; # python3-devel;
+              yum install -y python3 python3-pip python3-devel;
               python3 get-poetry.py --preview -y;
               source $HOME/.poetry/env;
               poetry env use python3
