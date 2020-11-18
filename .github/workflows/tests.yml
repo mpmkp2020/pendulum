@@ -62,18 +62,16 @@ jobs:
         poetry run pytest -q tests
         poetry install
         
-  manylinux-arm64:
-    name: "${{ matrix.PYTHON.ABI_VERSION }} manylinux2014-aarch64"
+  Linux-AArch64:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        PYTHON:
-          - {VERSION: "cp36-cp36m", ABI_VERSION: 'cp36'}
+        python-version: [3.6, 3.7, 3.8]
     steps:
       - uses: actions/checkout@v2
       - run: |
           docker run --rm --privileged hypriot/qemu-register
-      - name: install dependencies      
+      - name: Setup test environment and run tests
         uses: docker://quay.io/pypa/manylinux2014_aarch64  
         with:
           args: |
@@ -92,6 +90,6 @@ jobs:
         uses: actions/cache@v1
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }} 
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
       
-     
+      
