@@ -3,7 +3,7 @@ name: Tests
 on: [push, pull_request]
 
 jobs:
-  #Linting:
+  #Linting: 
     #runs-on: ubuntu-latest
 
     #steps:
